@@ -41,6 +41,8 @@ fun MailCategoryApp(modifier: Modifier = Modifier) {
     var categories by remember {
         mutableStateOf<List<CategoriesItem?>>(emptyList())
     }
+    var isError by remember { mutableStateOf(false) }
+
 
     var selectedCategory by remember { mutableStateOf("Beef") }
 
@@ -55,7 +57,7 @@ fun MailCategoryApp(modifier: Modifier = Modifier) {
         }
 
         override fun onFailure(call: Call<CategoriesResponse?>, t: Throwable) {
-            TODO("Not yet implemented")
+            isError = true
         }
     }
 
@@ -65,10 +67,11 @@ fun MailCategoryApp(modifier: Modifier = Modifier) {
     Column(verticalArrangement = Arrangement.SpaceEvenly) {
         MealsLayout(
             item = categories,
-            selected = selectedCategory,
             onSelectedClick = { selectedCategory = it })
         MealApp(category = selectedCategory)
     }
+
+
 }
 
 
@@ -76,14 +79,13 @@ fun MailCategoryApp(modifier: Modifier = Modifier) {
 fun MealsLayout(
     modifier: Modifier = Modifier,
     item: List<CategoriesItem?>,
-    selected: String?,
     onSelectedClick: (String) -> Unit
 ) {
     LazyRow {
 
 
         items(item) { category ->
-            MealItem(categoriesItem = category!!, selected = selected, onClick = {
+            MealItem(categoriesItem = category!!, onClick = {
                 onSelectedClick(category.strCategory ?: "Beef")
             })
         }
@@ -95,7 +97,6 @@ fun MealsLayout(
 fun MealItem(
     modifier: Modifier = Modifier,
     categoriesItem: CategoriesItem,
-    selected: String?,
     onClick: () -> Unit
 ) {
     val rainbowGradient = Brush.sweepGradient(

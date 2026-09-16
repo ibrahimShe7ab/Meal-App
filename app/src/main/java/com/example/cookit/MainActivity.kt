@@ -18,9 +18,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             CookItTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-
                     MailCategoryApp(Modifier.padding(innerPadding))
-
 
                 }
             }

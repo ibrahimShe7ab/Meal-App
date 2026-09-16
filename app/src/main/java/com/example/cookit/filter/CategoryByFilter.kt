@@ -36,7 +36,7 @@ import retrofit2.Response
 @Composable
 fun MealApp(modifier: Modifier = Modifier, category: String) {
     var meal by remember { mutableStateOf<List<MealsItem?>>(emptyList()) }
-
+    var isError by remember { mutableStateOf(false) }
     RetrofitInstance.api.getByCategory(category).enqueue(object : Callback<FilterResponse> {
         override fun onResponse(call: Call<FilterResponse?>, response: Response<FilterResponse?>) {
             meal = response.body()?.meals ?: emptyList()
@@ -44,7 +44,7 @@ fun MealApp(modifier: Modifier = Modifier, category: String) {
         }
 
         override fun onFailure(call: Call<FilterResponse?>, t: Throwable) {
-            TODO("Not yet implemented")
+            isError = true
         }
     })
     MealLayout(meal)
