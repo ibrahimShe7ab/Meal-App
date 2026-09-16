@@ -118,6 +118,7 @@ fun MealItem(
                 onClick()
             },
     ) {
+        Spacer(Modifier.padding(top = 60.dp))
 
         AsyncImage(
             model = categoriesItem.strCategoryThumb,
